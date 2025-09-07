@@ -34,7 +34,6 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    # Relationships:
     body_scans = relationship("BodyScan", back_populates="user")
     food_logs = relationship("FoodLog", back_populates="user")
     exercise_logs = relationship("ExerciseLog", back_populates="user")
@@ -53,5 +52,34 @@ class BodyScan(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     user = relationship("User", back_populates="body_scans")
 
-# Other models: Food, FoodLog, Exercise, ExerciseLog, Prediction, Subscription
-# Can be added following the above structure.
+class FoodLog(Base):
+    __tablename__ = "food_logs"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    food_name = Column(String)
+    calories = Column(Float)
+    protein = Column(Float)
+    carbs = Column(Float)
+    fats = Column(Float)
+    logged_at = Column(DateTime, default=datetime.utcnow)
+    user = relationship("User", back_populates="food_logs")
+
+class ExerciseLog(Base):
+    __tablename__ = "exercise_logs"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    exercise_name = Column(String)
+    duration_minutes = Column(Float)
+    calories_burned = Column(Float)
+    logged_at = Column(DateTime, default=datetime.utcnow)
+    user = relationship("User", back_populates="exercise_logs")
+
+class Prediction(Base):
+    __tablename__ = "predictions"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    target_weight = Column(Float)
+    target_date = Column(DateTime)
+    predicted_success = Column(Boolean, default=None)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    user = relationship("User", back_populates="predictions")
