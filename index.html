@@ -1,6 +1,466 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitSync Pro - Your Digital Fitness Twin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .cta-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e8f0ff 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: #555;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Phases Section */
+        .phases {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            padding: 100px 0;
+        }
+
+        .phases-timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .phase-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            flex: 1;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .phase-number {
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            background: white;
+            padding: 100px 0;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .tech-card:hover {
+            transform: scale(1.05);
+        }
+
+        .tech-card h4 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            padding: 100px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item {
+                flex-direction: column !important;
+            }
+            
+            .phase-card {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Interactive Elements */
+        .demo-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 1rem;
+            display: inline-block;
+        }
+
+        .demo-button:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 2s ease-in-out;
+        }
+    </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nugym</title>
@@ -82,6 +542,47 @@
   </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">FitSync Pro</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#phases">Roadmap</a></li>
+                <li><a href="#tech">Technology</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="#pricing" class="cta-btn">Start Free Trial</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Your Digital Fitness Twin</h1>
+            <p>AI-powered fitness platform that predicts outcomes before you make decisions</p>
+            <div class="demo-button" onclick="showDemo()">🎥 Watch Demo</div>
+            <div class="demo-button" onclick="startTrial()">🚀 Start Free Trial</div>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-number">97%</span>
+                    <span>Accuracy in Predictions</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">500K+</span>
+                    <span>Food Database Items</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3D</span>
+                    <span>Body Scanning Technology</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">24/7</span>
+                    <span>AI Personal Trainer</span>
+                </div>
+            </div>
+        </div>
   <header>
     <h1>Nugym</h1>
     <nav>
@@ -95,6 +596,88 @@
       <h2>Dashboard</h2>
       <p>Welcome to Nugym! Track your workouts, progress, and more.</p>
     </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Revolutionary Fitness Intelligence</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Goal Setting</h3>
+                    <p>Choose your path and let AI create your personalized journey</p>
+                    <ul class="feature-list">
+                        <li>Burn Fat with precise kg targets and deadlines</li>
+                        <li>Build Muscle with body-part specific programs</li>
+                        <li>Maintain wellness with custom targets</li>
+                        <li>3D body scanning for accurate baselines</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Food Intelligence System</h3>
+                    <p>Multi-modal food logging with instant outcome predictions</p>
+                    <ul class="feature-list">
+                        <li>Camera AI recognizes foods and portions</li>
+                        <li>Voice logging: "I ate two eggs and toast"</li>
+                        <li>500K+ item searchable database</li>
+                        <li>Real-time weight change projections</li>
+                        <li>Muscle synthesis potential analysis</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💪</div>
+                    <h3>Precision Training System</h3>
+                    <p>Body-part specific programs with smart activity tracking</p>
+                    <ul class="feature-list">
+                        <li>Target specific areas: "Bigger Arms", "Toned Legs"</li>
+                        <li>Phone camera rep counting</li>
+                        <li>Wearable device synchronization</li>
+                        <li>Equipment weight detection</li>
+                        <li>Form analysis and corrections</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-Time Projections</h3>
+                    <p>Outcome simulator with dynamic plan adjustments</p>
+                    <ul class="feature-list">
+                        <li>"5.2kg loss in 6 weeks" predictions</li>
+                        <li>Muscle gain estimates per body part</li>
+                        <li>Adjustment alerts when off track</li>
+                        <li>Plateau detection and auto-corrections</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Auto-Progress Detection</h3>
+                    <p>3D body evolution tracking with millimeter accuracy</p>
+                    <ul class="feature-list">
+                        <li>Visual side-by-side comparisons</li>
+                        <li>Millimeter-accurate measurements</li>
+                        <li>Progress stall detection</li>
+                        <li>Automatic plan adjustments</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3>Nutrient Timing Advisor</h3>
+                    <p>Precision nutrition timing for optimal results</p>
+                    <ul class="feature-list">
+                        <li>"Eat these carbs NOW for 27% better workout"</li>
+                        <li>Supplement synergy alerts</li>
+                        <li>Pre/post workout optimization</li>
+                        <li>Sleep and recovery nutrition</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     <section id="profile">
       <h2>Your Profile</h2>
       <form aria-label="Edit Profile">
@@ -105,6 +688,86 @@
         <button type="submit">Save Profile</button>
       </form>
     </section>
+
+    <!-- Development Phases -->
+    <section class="phases" id="phases">
+        <div class="container">
+            <h2 class="section-title">Development Roadmap</h2>
+            
+            <div class="phases-timeline">
+                <div class="timeline-item">
+                    <div class="phase-card">
+                        <div class="phase-number">1</div>
+                        <h3>MVP Launch (Months 1-3)</h3>
+                        <p>Foundation features for immediate value</p>
+                        <ul class="feature-list">
+                            <li>User onboarding and goal selection</li>
+                            <li>Basic food and exercise logging</li>
+                            <li>Exercise library with video guides</li>
+                            <li>Progress tracking dashboard</li>
+                        </ul>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                        <small>85% Complete</small>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="phase-card">
+                        <div class="phase-number">2</div>
+                        <h3>Intelligence Layer (Months 4-6)</h3>
+                        <p>AI-powered predictions and analysis</p>
+                        <ul class="feature-list">
+                            <li>Food AI recognition system</li>
+                            <li>Outcome prediction engine</li>
+                            <li>3D body scanning integration</li>
+                            <li>Personalized recommendations</li>
+                        </ul>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                        <small>45% Complete</small>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="phase-card">
+                        <div class="phase-number">3</div>
+                        <h3>Auto-Tracking (Months 7-9)</h3>
+                        <p>Seamless data collection and analysis</p>
+                        <ul class="feature-list">
+                            <li>Camera-based rep counting</li>
+                            <li>Wearable device integration</li>
+                            <li>Automatic progress detection</li>
+                            <li>Real-time form corrections</li>
+                        </ul>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 20%"></div>
+                        </div>
+                        <small>20% Complete</small>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="phase-card">
+                        <div class="phase-number">4</div>
+                        <h3>Advanced AI (Months 10-12)</h3>
+                        <p>Cutting-edge personalization features</p>
+                        <ul class="feature-list">
+                            <li>Genetic-based personalization</li>
+                            <li>VR personal trainer integration</li>
+                            <li>Advanced nutrient timing</li>
+                            <li>Community and social features</li>
+                        </ul>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 5%"></div>
+                        </div>
+                        <small>In Planning</small>
+                    </div>
+                </div>
+            </div>
+        </div>
     <section id="workouts">
       <h2>Workouts</h2>
       <form aria-label="Add Workout">
@@ -117,6 +780,407 @@
         <button type="submit">Add Workout</button>
       </form>
     </section>
+
+    <!-- Technology Stack -->
+    <section class="tech-stack" id="tech">
+        <div class="container">
+            <h2 class="section-title">Cutting-Edge Technology</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>🤖 AI & Machine Learning</h4>
+                    <p>TensorFlow, PyTorch, OpenCV for computer vision and predictive modeling</p>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>📱 Mobile & Web</h4>
+                    <p>React Native, Flutter for cross-platform mobile, React.js for web dashboard</p>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>👁️ Computer Vision</h4>
+                    <p>MediaPipe for exercise form analysis, Clarifai for food recognition</p>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>📊 3D Processing</h4>
+                    <p>Intel RealSense SDK, mesh comparison algorithms for body scanning</p>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>🔗 Integrations</h4>
+                    <p>Apple Health, Google Fit, smart scale APIs, wearable device SDKs</p>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>☁️ Cloud Infrastructure</h4>
+                    <p>AWS/GCP for scalable backend, real-time data processing, secure storage</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Choose Your Fitness Journey</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic</h3>
+                    <div class="price">Free</div>
+                    <ul class="feature-list">
+                        <li>Basic food and exercise logging</li>
+                        <li>Simple progress tracking</li>
+                        <li>Exercise video library</li>
+                        <li>Community access</li>
+                        <li>Basic goal setting</li>
+                    </ul>
+                    <button class="cta-btn" onclick="selectPlan('basic')">Get Started Free</button>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price">$14.99<span class="price-period">/month</span></div>
+                    <ul class="feature-list">
+                        <li>Everything in Basic</li>
+                        <li>AI food recognition</li>
+                        <li>Outcome predictions</li>
+                        <li>3D body scanning</li>
+                        <li>Personalized meal plans</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="cta-btn" onclick="selectPlan('pro')">Start Pro Trial</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Elite</h3>
+                    <div class="price">$29.99<span class="price-period">/month</span></div>
+                    <ul class="feature-list">
+                        <li>Everything in Pro</li>
+                        <li>DNA-based customization</li>
+                        <li>Live coaching sessions</li>
+                        <li>VR trainer access</li>
+                        <li>Advanced biometric tracking</li>
+                        <li>Custom supplement plans</li>
+                        <li>24/7 AI assistant</li>
+                    </ul>
+                    <button class="cta-btn" onclick="selectPlan('elite')">Unlock Elite</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#">API</a>
+                    <a href="#">Integrations</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press Kit</a>
+                    <a href="#">Contact</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">Community</a>
+                    <a href="#">Status</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">HIPAA Compliance</a>
+                    <a href="#">Data Security</a>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid #34495e; padding-top: 2rem; margin-top: 2rem;">
+                <p>&copy; 2025 FitSync Pro. All rights reserved. | HIPAA Compliant | GDPR Ready</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Interactive functionality
+        function showDemo() {
+            alert('🎥 Demo video would launch here!\n\nWatch how FitSync Pro creates your digital twin and predicts your fitness outcomes before you make decisions.');
+        }
+
+        function startTrial() {
+            alert('🚀 Welcome to FitSync Pro!\n\n✓ 14-day free trial\n✓ No credit card required\n✓ Full Pro features included\n\nRedirecting to sign-up...');
+        }
+
+        function selectPlan(plan) {
+            const planNames = {
+                'basic': 'Basic (Free)',
+                'pro': 'Pro ($14.99/month)',
+                'elite': 'Elite ($29.99/month)'
+            };
+            
+            alert(`You've selected: ${planNames[plan]}\n\nFeatures included:\n• ${plan === 'basic' ? 'Basic tracking and community' : plan === 'pro' ? 'AI predictions and 3D scanning' : 'Full elite features with live coaching'}\n\nRedirecting to checkout...`);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate progress bars when they come into view
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressFill = entry.target.querySelector('.progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = progressFill.style.width;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.phase-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Mobile menu toggle (basic implementation)
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('mobile-active');
+        }
+
+        // Add mobile menu styles
+        const mobileStyles = `
+            @media (max-width: 768px) {
+                .nav-links.mobile-active {
+                    display: flex;
+                    flex-direction: column;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: white;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                    padding: 1rem;
+                    z-index: 1000;
+                }
+                
+                .mobile-menu-btn {
+                    display: block;
+                    background: none;
+                    border: none;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                }
+            }
+            
+            .mobile-menu-btn {
+                display: none;
+            }
+        `;
+        
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = mobileStyles;
+        document.head.appendChild(styleSheet);
+
+        // Add demo interactions for key features
+        function showFeatureDemo(feature) {
+            const demos = {
+                'food-ai': 'AI Food Recognition Demo:\n\n📸 Point camera at your meal\n🧠 AI identifies: "Grilled chicken breast, 150g"\n📊 Instant analysis: "+23g protein, 165 calories"\n🎯 Impact: "Supports muscle building goal"',
+                
+                'body-scan': '3D Body Scanning Demo:\n\n📱 Use phone camera for 360° scan\n📐 Precise measurements captured\n📊 Baseline established: Waist 32", Arms 14"\n🎯 Goal tracking ready!',
+                
+                'predictions': 'Outcome Predictions Demo:\n\n🔮 "Current plan analysis..."\n📈 "5.2kg weight loss in 6 weeks"\n💪 "15% muscle mass increase expected"\n⚡ "Energy levels will improve by 23%"',
+                
+                'rep-counting': 'Smart Rep Counting Demo:\n\n📱 Camera detects your form\n🔢 Counts: "8... 9... 10 perfect squats!"\n✅ Form feedback: "Great depth, keep core tight"\n📊 Workout logged automatically'
+            };
+            
+            alert(demos[feature] || 'Feature demo coming soon!');
+        }
+
+        // Add interactive elements to feature cards
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add demo buttons to feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                const demoFeatures = ['food-ai', 'body-scan', 'predictions', 'rep-counting'];
+                if (index < demoFeatures.length) {
+                    const demoBtn = document.createElement('button');
+                    demoBtn.className = 'demo-button';
+                    demoBtn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                    demoBtn.style.color = 'white';
+                    demoBtn.style.border = 'none';
+                    demoBtn.style.fontSize = '0.9rem';
+                    demoBtn.style.padding = '10px 20px';
+                    demoBtn.textContent = '🎮 Try Demo';
+                    demoBtn.onclick = () => showFeatureDemo(demoFeatures[index]);
+                    card.appendChild(demoBtn);
+                }
+            });
+
+            // Add interactive stats counter
+            function animateStats() {
+                const statNumbers = document.querySelectorAll('.stat-number');
+                const targets = ['97', '500', '3', '24'];
+                
+                statNumbers.forEach((stat, index) => {
+                    if (targets[index]) {
+                        let current = 0;
+                        const target = parseInt(targets[index]);
+                        const increment = target / 50;
+                        
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            
+                            if (index === 1) { // 500K+ formatting
+                                stat.textContent = Math.floor(current) + 'K+';
+                            } else if (index === 2) { // 3D formatting
+                                stat.textContent = Math.floor(current) + 'D';
+                            } else if (index === 3) { // 24/7 formatting
+                                stat.textContent = Math.floor(current) + '/7';
+                            } else {
+                                stat.textContent = Math.floor(current) + '%';
+                            }
+                        }, 50);
+                    }
+                });
+            }
+
+            // Trigger stats animation when hero section is visible
+            const heroObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                        heroObserver.disconnect();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            heroObserver.observe(document.querySelector('.hero'));
+
+            // Add mobile menu button to navigation
+            const nav = document.querySelector('nav');
+            const mobileMenuBtn = document.createElement('button');
+            mobileMenuBtn.className = 'mobile-menu-btn';
+            mobileMenuBtn.innerHTML = '☰';
+            mobileMenuBtn.onclick = toggleMobileMenu;
+            nav.appendChild(mobileMenuBtn);
+        });
+
+        // Add success stories simulation
+        function showSuccessStories() {
+            const stories = [
+                "Sarah, 28: 'Lost 12kg in 3 months with FitSync Pro predictions!'",
+                "Mike, 35: 'Built muscle faster than ever with AI-guided nutrition timing.'",
+                "Emma, 24: 'The 3D body scanning kept me motivated throughout my journey.'",
+                "David, 42: 'Finally achieved my fitness goals with personalized AI coaching.'"
+            ];
+            
+            const randomStory = stories[Math.floor(Math.random() * stories.length)];
+            alert('💪 Success Story:\n\n' + randomStory + '\n\nJoin thousands of users transforming their fitness journey with AI!');
+        }
+
+        // Add floating success stories button
+        const floatingBtn = document.createElement('div');
+        floatingBtn.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            z-index: 1000;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        `;
+        floatingBtn.innerHTML = '⭐';
+        floatingBtn.title = 'Success Stories';
+        floatingBtn.onclick = showSuccessStories;
+        floatingBtn.onmouseover = () => floatingBtn.style.transform = 'scale(1.1)';
+        floatingBtn.onmouseout = () => floatingBtn.style.transform = 'scale(1)';
+        document.body.appendChild(floatingBtn);
+
+        // Add newsletter signup functionality
+        function subscribeNewsletter() {
+            const email = prompt('Subscribe to FitSync Pro updates:\n\nEnter your email address:');
+            if (email && email.includes('@')) {
+                alert('✅ Thank you for subscribing!\n\nYou\'ll receive:\n• Early access to new features\n• Fitness tips from our AI\n• Exclusive beta invitations\n• Success stories from our community');
+            } else if (email) {
+                alert('❌ Please enter a valid email address.');
+            }
+        }
+
+        // Add newsletter section to footer
+        const footerContent = document.querySelector('.footer-content');
+        const newsletterSection = document.createElement('div');
+        newsletterSection.className = 'footer-section';
+        newsletterSection.innerHTML = `
+            <h4>Stay Updated</h4>
+            <p style="color: #bdc3c7; margin-bottom: 1rem;">Get the latest fitness AI insights</p>
+            <button onclick="subscribeNewsletter()" style="
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: transform 0.3s;
+            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                📧 Subscribe
+            </button>
+        `;
+        footerContent.appendChild(newsletterSection);
+
+        console.log('🚀 FitSync Pro website loaded successfully!');
+        console.log('💡 Try the interactive demos in the feature cards!');
+    </script>
   </main>
   <footer style="text-align:center; margin:2rem 0; color:#888;">
     &copy; 2025 Nugym
